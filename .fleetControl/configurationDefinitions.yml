@@ -3,5 +3,3 @@ configurationDefinitions:
     description: Java agent configuration
     type: agent-config
     version: 1.0.0
-    format:
-    schema:
