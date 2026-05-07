@@ -1,5 +1,6 @@
 configurationDefinitions:
   - platform: KUBERNETESCLUSTER
-    description: Java agent configuration
+    description: Ruby agent configuration
     type: agent-config
     version: 1.0.0
+    schema: ./schemas/config-k8s.json

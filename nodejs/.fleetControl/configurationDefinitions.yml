@@ -1,0 +1,6 @@
+configurationDefinitions:
+  - platform: KUBERNETESCLUSTER
+    description: Node.js agent configuration
+    type: agent-config
+    version: 1.0.0
+    schema: ./schemas/config-k8s.json
