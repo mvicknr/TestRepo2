@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "New Relic .NET Agent Configuration",
+  "description": "Fleet Control configuration schema for the New Relic .NET agent. Delivered via NEW_RELIC_* environment variables. Generated from src/Agent/Configuration/newrelic.config.",
+  "type": "object",
+  "properties": {
+    "license_key": {
+      "type": "string",
+      "description": "New Relic license key. Binds agent data to your account.",
+      "minLength": 1,
+      "x-env-var": "NEW_RELIC_LICENSE_KEY"
+    },
+    "app_name": {
+      "type": "string",
+      "description": "Name of your application as shown in the New Relic UI.",
+      "default": "My Application",
+      "x-env-var": "NEW_RELIC_APP_NAME"
+    },
+    "agent_enabled": {
+      "type": "boolean",
+      "description": "Set to false to disable the agent without removing it.",
+      "default": true,
+      "x-env-var": "NEW_RELIC_ENABLED"
+    },
+    "log": {
+      "type": "object",
+      "description": "Agent logging configuration.",
+      "additionalProperties": true,
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": [
+            "off",
+            "error",
+            "warn",
+            "info",
+            "debug",
+            "finest",
+            "all"
+          ],
+          "default": "info",
+          "description": "Log level for the agent.",
+          "x-env-var": "NEW_RELIC_LOG_LEVEL"
+        },
+        "console": {
+          "type": "boolean",
+          "default": false,
+          "description": "When true, log output is written to the console.",
+          "x-env-var": "NEW_RELIC_LOG_CONSOLE"
+        }
+      }
+    },
+    "transaction_tracer": {
+      "type": "object",
+      "description": "Transaction tracer captures slow transaction details.",
+      "additionalProperties": true,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable transaction tracing.",
+          "x-env-var": "NEW_RELIC_TRANSACTION_TRACER_ENABLED"
+        },
+        "transaction_threshold": {
+          "type": "string",
+          "default": "apdex_f",
+          "description": "Threshold (seconds or 'apdex_f') for recording a transaction trace.",
+          "x-env-var": "NEW_RELIC_TRANSACTION_TRACER_THRESHOLD"
+        },
+        "record_sql": {
+          "type": "string",
+          "enum": [
+            "off",
+            "raw",
+            "obfuscated"
+          ],
+          "default": "obfuscated",
+          "description": "Controls SQL recording mode.",
+          "x-env-var": "NEW_RELIC_TRANSACTION_TRACER_RECORD_SQL"
+        },
+        "stack_trace_threshold": {
+          "type": "number",
+          "default": 0.5,
+          "description": "Seconds after which a SQL stack trace is captured.",
+          "x-env-var": "NEW_RELIC_TRANSACTION_TRACER_STACK_TRACE_THRESHOLD"
+        }
+      }
+    },
+    "error_collector": {
+      "type": "object",
+      "description": "Captures uncaught exceptions and sends them to New Relic.",
+      "additionalProperties": true,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable error collection.",
+          "x-env-var": "NEW_RELIC_ERROR_COLLECTOR_ENABLED"
+        },
+        "ignore_status_codes": {
+          "type": "string",
+          "default": "404",
+          "description": "Comma-separated HTTP status codes to ignore.",
+          "x-env-var": "NEW_RELIC_ERROR_COLLECTOR_IGNORE_STATUS_CODES"
+        }
+      }
+    },
+    "distributed_tracing": {
+      "type": "object",
+      "description": "Distributed tracing tracks requests across services.",
+      "additionalProperties": true,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable distributed tracing.",
+          "x-env-var": "NEW_RELIC_DISTRIBUTED_TRACING_ENABLED"
+        }
+      }
+    },
+    "span_events": {
+      "type": "object",
+      "description": "Span events for distributed tracing UI.",
+      "additionalProperties": true,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable span events.",
+          "x-env-var": "NEW_RELIC_SPAN_EVENTS_ENABLED"
+        },
+        "max_samples_stored": {
+          "type": "integer",
+          "default": 2000,
+          "description": "Maximum span events per harvest cycle.",
+          "x-env-var": "NEW_RELIC_SPAN_EVENTS_MAX_SAMPLES_STORED"
+        }
+      }
+    },
+    "application_logging": {
+      "type": "object",
+      "description": "Application log forwarding and metrics.",
+      "additionalProperties": true,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable all application logging features.",
+          "x-env-var": "NEW_RELIC_APPLICATION_LOGGING_ENABLED"
+        },
+        "forwarding": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true,
+              "description": "Forward application logs to New Relic.",
+              "x-env-var": "NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED"
+            },
+            "max_samples_stored": {
+              "type": "integer",
+              "default": 10000,
+              "description": "Maximum log events per harvest cycle.",
+              "x-env-var": "NEW_RELIC_APPLICATION_LOGGING_FORWARDING_MAX_SAMPLES_STORED"
+            }
+          }
+        },
+        "metrics": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true,
+              "description": "Report log count metrics per log level.",
+              "x-env-var": "NEW_RELIC_APPLICATION_LOGGING_METRICS_ENABLED"
+            }
+          }
+        }
+      }
+    },
+    "browser_monitoring": {
+      "type": "object",
+      "description": "Real User Monitoring (RUM) browser injection.",
+      "additionalProperties": true,
+      "properties": {
+        "auto_instrument": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically inject RUM script into web pages.",
+          "x-env-var": "NEW_RELIC_BROWSER_MONITORING_AUTO_INSTRUMENT"
+        }
+      }
+    },
+    "high_security": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enables high security mode \u2014 forces SSL and obfuscated SQL.",
+      "x-env-var": "NEW_RELIC_HIGH_SECURITY"
+    },
+    "labels": {
+      "type": "string",
+      "description": "Semicolon-delimited list of label:value pairs (e.g. 'Env:prod;Team:backend').",
+      "x-env-var": "NEW_RELIC_LABELS"
+    }
+  },
+  "required": [
+    "license_key",
+    "app_name"
+  ],
+  "additionalProperties": true
+}
